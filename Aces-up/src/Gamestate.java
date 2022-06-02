@@ -5,7 +5,7 @@ import java.util.concurrent.ThreadLocalRandom;
 
 public class Gamestate {
 
-	List<LinkedList<Card>> piles = new ArrayList<LinkedList<Card>>();
+	List<LinkedList<Card>> piles = new ArrayList<LinkedList<Card>>(4);
 	List<LinkedList<Card>> empty = new LinkedList<LinkedList<Card>>();
 	List<LinkedList<Card>> canMove = new LinkedList<LinkedList<Card>>();
 
@@ -128,10 +128,10 @@ public class Gamestate {
 			Deck tempDeck = deck.cloneDeck();
 			while (!tempDeck.cards.isEmpty()) {
 				temp.checkRemoveableCards();
-				temp.moveCardsSimple();
+				temp.moveCardsRandom();
 				temp.dealCards(tempDeck);
 				temp.checkRemoveableCards();
-				temp.moveCardsSimple();
+				temp.moveCardsRandom();
 			}
 			if (temp.piles.get(0).size() == 1 && temp.piles.get(1).size() == 1 && temp.piles.get(2).size() == 1
 					&& temp.piles.get(3).size() == 1) {

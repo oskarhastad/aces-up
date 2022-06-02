@@ -6,7 +6,7 @@ public class Main {
 
 		int success = 0;
 		int simulations = 10000;
-
+		
 		for (int i = 0; i < simulations; i++) {
 
 			Deck deck = new Deck();
