@@ -24,7 +24,7 @@ public class Gamestate {
 
 	}
 
-	void checkRemoveableCards() {
+	void removeCards() {
 		boolean changed = true;
 		while (changed) {
 			changed = false;
@@ -78,12 +78,12 @@ public class Gamestate {
 		checkEmptyAndCanMove();
 		while (!empty.isEmpty() && !canMove.isEmpty()) {
 			Gamestate candidate = cloneGamestate();
-			for (int j = 0; j < canMove.size(); j++) {
+			for (int i = 0; i < canMove.size(); i++) {
 				Gamestate temporary = cloneGamestate();
 				temporary.checkEmptyAndCanMove();
-				temporary.empty.get(0).add(temporary.canMove.get(j).getLast());
-				temporary.canMove.get(j).removeLast();
-				temporary.checkRemoveableCards();
+				temporary.empty.get(0).add(temporary.canMove.get(i).getLast());
+				temporary.canMove.get(i).removeLast();
+				temporary.removeCards();
 				if (temporary.amountOfCards() <= candidate.amountOfCards()) {
 					candidate = temporary;
 				}
@@ -99,12 +99,12 @@ public class Gamestate {
 		while (!empty.isEmpty() && !canMove.isEmpty()) {
 			Gamestate candidate = cloneGamestate();
 			int success = 0;
-			for (int j = 0; j < canMove.size(); j++) {
+			for (int i = 0; i < canMove.size(); i++) {
 				Gamestate temporary = cloneGamestate();
 				temporary.checkEmptyAndCanMove();
-				temporary.empty.get(0).add(temporary.canMove.get(j).getLast());
-				temporary.canMove.get(j).removeLast();
-				temporary.checkRemoveableCards();
+				temporary.empty.get(0).add(temporary.canMove.get(i).getLast());
+				temporary.canMove.get(i).removeLast();
+				temporary.removeCards();
 				int successTemp = 0;
 				if (canMove.size() > 1) {
 					successTemp = temporary.simulateFinish(deck, 1000);
@@ -127,11 +127,11 @@ public class Gamestate {
 			Gamestate temp = cloneGamestate();
 			Deck tempDeck = deck.cloneDeck();
 			while (!tempDeck.cards.isEmpty()) {
-				temp.checkRemoveableCards();
-				temp.moveCardsRandom();
+				temp.removeCards();
+				temp.moveCardsSimple();
 				temp.dealCards(tempDeck);
-				temp.checkRemoveableCards();
-				temp.moveCardsRandom();
+				temp.removeCards();
+				temp.moveCardsSimple();
 			}
 			if (temp.piles.get(0).size() == 1 && temp.piles.get(1).size() == 1 && temp.piles.get(2).size() == 1
 					&& temp.piles.get(3).size() == 1) {
